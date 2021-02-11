@@ -1,0 +1,102 @@
+---
+AllCops:
+  TargetRubyVersion: 2.6
+
+Layout/ArgumentAlignment:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
+Layout/CaseIndentation:
+  IndentOneStep: false
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: false
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+Layout/ExtraSpacing:
+  Enabled: false
+Layout/FirstArrayElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+Layout/FirstHashElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+Layout/HashAlignment:
+  Enabled: false
+Layout/LineLength:
+  Max: 120
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+Layout/ParameterAlignment:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+Layout/SpaceInLambdaLiteral:
+  EnforcedStyle: require_space
+Layout/TrailingEmptyLines:
+  Enabled: true
+Lint/AmbiguousBlockAssociation:
+  Enabled: true
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
+Metrics/BlockLength:
+  CountComments: false
+  Enabled: true
+  Max: 30
+Metrics/MethodLength:
+  Max: 16
+Metrics/ModuleLength:
+  Enabled: false
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+Naming/VariableNumber:
+  Enabled: true
+Style/AccessorGrouping:
+  Enabled: true
+Style/Alias:
+  Enabled: false
+Style/AndOr:
+  Enabled: false
+Style/AsciiComments:
+  Enabled: false
+Style/CaseLikeIf:
+  Enabled: true
+Style/Documentation:
+  Enabled: false
+Style/DoubleNegation:
+  Enabled: false
+Style/EachWithObject:
+  Enabled: false
+Style/ExponentialNotation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: true
+Style/GuardClause:
+  Enabled: false
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Style/Lambda:
+  EnforcedStyle: literal
+Style/MultilineIfModifier:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+Style/RedundantSelf:
+  Enabled: false
+Style/RegexpLiteral:
+  Enabled: true
+  EnforcedStyle: mixed
+Style/RescueStandardError:
+  Enabled: false
+Style/SignalException:
+  Enabled: false
+Style/SymbolArray:
+  Enabled: false
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
