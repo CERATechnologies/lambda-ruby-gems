@@ -4,6 +4,7 @@ require 'json'
 
 module Oculo
   module SnsEvents
+    class InvalidSnsS3EventError < Exception; end
 
     ##
     # Usage:
@@ -17,17 +18,26 @@ module Oculo
     class S3Notification
       def initialize(event:)
         @event = event
-        @payload = event.dig('Records', 0, 'Sns', 'Message').then { |msg| JSON.parse(msg) }
       end
 
-      attr_reader :payload
+      ##
+      # Get the S3 Payload extracted from the SNS Event
+      #
+      # @raise [InvalidSnsS3EventError] if the payloads could not be parsed
+      # @return [Hash] the decoded message
+      def payload
+        @payload ||=
+          @event.dig('Records', 0, 'Sns', 'Message')
+            .tap { |msg| raise InvalidSnsS3EventError if msg.nil? }
+            .then { |msg| JSON.parse(msg) }
+      end
 
       def file_key
-        @file_key ||= payload.dig('Records', 0, 's3', 'object', 'key')
+        @file_key ||= s3_object_value('key')
       end
 
       def file_size
-        @file_size ||= payload.dig('Records', 0, 's3', 'object', 'size')
+        @file_size ||= s3_object_value('size')
       end
 
       ##
@@ -41,6 +51,7 @@ module Oculo
       #   @param ext1 [String] and this one too
       #          ...
       #
+      # @raise [InvalidSnsS3EventError] if the payloads could not be parsed
       # @return [Boolean]
       def matches_extensions?(*file_extensions)
         file_key.end_with?(*file_extensions)
@@ -50,11 +61,17 @@ module Oculo
       # Does the file from S3 located in this directory?
       #
       # @param prefix [String] S3 key prefix
+      # @raise [InvalidSnsS3EventError] if the payloads could not be parsed
       # @return [Boolean]
       def has_path?(prefix)
         file_key.start_with?(prefix.sub(%r[^/], ''))
       end
-    end
 
+      private
+
+      def s3_object_value(key)
+        payload.dig('Records', 0, 's3', 'object', key).tap {|value| raise InvalidSnsS3EventError if value.nil?}
+      end
+    end
   end
 end

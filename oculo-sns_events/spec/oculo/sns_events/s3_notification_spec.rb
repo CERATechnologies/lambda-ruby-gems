@@ -90,4 +90,24 @@ RSpec.describe Oculo::SnsEvents::S3Notification do
     end
   end
 
+  context 'when the event is not from SNS' do
+    let(:sns_event) do
+      { 'Some' => { 'Other' => { 'AWS' => 'System', 'Message' => 'Format' } } }
+    end
+
+    it 'raises InvalidSnsS3EventError' do
+      expect { subject.payload }.to raise_error(Oculo::SnsEvents::InvalidSnsS3EventError)
+    end
+  end
+
+  context 'when the payload in the SNS message is not from S3' do
+    let(:message) do
+      { 'SNS' => { 'Payload' => { 'Containing' => 'Something', 'Else' => 'Entirely' } } }.to_json
+    end
+
+    it 'raises InvalidSnsS3EventError' do
+      expect { subject.file_key }.to raise_error(Oculo::SnsEvents::InvalidSnsS3EventError)
+    end
+  end
+
 end
