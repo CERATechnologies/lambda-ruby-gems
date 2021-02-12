@@ -1,2 +1,2 @@
-require 'oculo/sns_events/version'
-require 'oculo/sns_events/s3_notification'
+require_relative 'sns_events/version'
+require_relative 'sns_events/s3_notification'
