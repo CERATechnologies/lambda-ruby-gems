@@ -5,8 +5,10 @@ task 'specs:all'  do
   Dir.glob('*')
      .select { |f| File.directory?(f) && File.exist?("#{f}/#{f}.gemspec") }
      .each do |gem|
-       p "Testing #{gem}"
-       system(%(cd #{gem} && bundle install && rake spec && cd ../))
-       p "Done with #{gem}"
+       puts "Bundling for #{gem}"
+       system(%(cd #{gem} && bundle install))
+       puts "+++ Testing #{gem}"
+       system(%(cd #{gem} && rake spec))
+       puts "Done with #{gem}"
      end
 end
