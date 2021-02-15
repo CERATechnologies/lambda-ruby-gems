@@ -1,0 +1,5 @@
+---
+steps:
+- label: ':rspec: Run specs'
+  command: 'docker-compose run --rm specs'
+

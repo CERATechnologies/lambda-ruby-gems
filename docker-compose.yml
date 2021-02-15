@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  specs:
+    build:
+      context: .
+    command: 'rake specs:all'
+    working_dir: /gem_source/
+    volumes:
+    - .:/gem_source/
