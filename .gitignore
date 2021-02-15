@@ -11,6 +11,10 @@
 /test/version_tmp/
 /tmp/
 
+# Gems should not check in their lockfiles
+# See https://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/
+Gemfile.lock
+
 # Used by dotenv library to load environment variables.
 .env
 
@@ -21,9 +25,6 @@
 /.bundle/
 /vendor/bundle
 /lib/bundler/man/
-
-Gemfile.lock
-.ruby-gemset
 
 # IntellIJ
 .idea
