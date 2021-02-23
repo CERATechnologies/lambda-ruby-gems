@@ -5,31 +5,31 @@ require 'json'
 RSpec.describe Oculo::SnsEvents::S3Notification do
   let(:message) do
     { 'Records' => [{
-      "eventVersion" => "2.1",
-      "eventSource" => "aws : s3",
-      "awsRegion" => "ap-southeast-2",
-      "eventTime" => "2021-02-10T07:14:09.519Z",
-      "eventName" => "ObjectCreated:Put",
-      "userIdentity" => { "principalId" => "AWS:544757391075:jeff" },
+      "eventVersion"      => "2.1",
+      "eventSource"       => "aws : s3",
+      "awsRegion"         => "ap-southeast-2",
+      "eventTime"         => "2021-02-10T07:14:09.519Z",
+      "eventName"         => "ObjectCreated:Put",
+      "userIdentity"      => { "principalId" => "AWS:544757391075:jeff" },
       "requestParameters" => { "sourceIPAddress" => "127.0.0.1" },
       "responseElements" => {
         "x-amz-request-id" => "E1DC023B3294FFF3",
-        "x-amz-id-2" => "g49Knmurd55/IW0lVTucEg4CrhLn5Je7oODxRl2BjlbxCtcJR7SZ/y5QYAjW/bppiELlYpux7zmp5DjubyxTr2aLXhbzDrW8"
+        "x-amz-id-2"       => "g49Knmurd55/IW0lVTucEg4CrhLn5Je7oODxRl2BjlbxCtcJR7SZ/y5QYAjW/bppiELlYpux7zmp5DjubyxTr2aLXhbzDrW8"
       },
       "s3" => {
         "s3SchemaVersion" => "1.0",
         "configurationId" => "7cec4c1b-00c2-480e-b4ab-af1b87c6fd51",
         "bucket" => {
-          "name" => "oculo-bad-files-go-here",
+          "name"          => "oculo-bad-files-go-here",
           "ownerIdentity" => { "principalId" => "AN8FYB6LRFGKA" },
-          "arn" => "arn:aws:s3:::oculo-bad-files-go-here"
+          "arn"           => "arn:aws:s3:::oculo-bad-files-go-here"
         },
         "object" => {
-          "key" => "files/cyberpunk-sorry.jpeg",
-          "size" => 303924,
-          "eTag" => "735f01ff550b7d9ffc79284a9498daaa",
+          "key"       => "files/cyberpunk-sorry.jpeg",
+          "size"      => 303924,
+          "eTag"      => "735f01ff550b7d9ffc79284a9498daaa",
           "sequencer" => "00602387C3DA9D675E" }
-        }
+      }
       }
     ]}.to_json
   end
@@ -39,14 +39,14 @@ RSpec.describe Oculo::SnsEvents::S3Notification do
       { 'EventSource' => 'aws:sns', 'EventVersion' => '1.0',
         'EventSubscriptionArn' => 'arn:aws:sns:ap-southeast-2:544757391075:virus-testing-BadFilesUpdatesTopic-1L351O8NT3UKT:a7460cb7-8b77-46e1-8b89-3c8125290e26',
         'Sns' => {
-          'Type' => 'Notification',
-          'MessageId' => 'cdca118f-b025-5883-ad32-49123a212c5c',
-          'TopicArn' => 'arn:aws:sns:ap-southeast-2:544757391075:virus-testing-BadFilesUpdatesTopic-1L351O8NT3UKT',
-          'Subject' => 'Amazon S3 Notification',
-          'Message' => message,
-          'Timestamp' => '2021-02-10T07:14:12.719Z',
-          'SignatureVersion' => '1',
-          'Signature' => 'qUb2tsa1I8sYtuN0OlwuA/97sZH5gbwe/IDwvQpmOSdu+OvYNxkw6hNXyClHF4IFmdQk5NBtGj5mUev9YGNoXAYDBLwqd9cpN+KxIco/Qjy1NIeCi5vdamSRechDgchIjT1g/xXRbPkvNoIUBi9EerMCAAWXjpfOIU9GcH646a5df+pt+0t1KoQfjbYzQiKHs62kWexRV0/7zEin5oUWm/a9UrJy28cUqIEbTReDTyzLQKrYch/ZT0THDGTypRZATxBohN9PW4wGOP/X4S7thoeiqLwF0PAlq6zPEIKGUY6idMWV+LkgdiW9KsAzqOn9UPThYQHIymoepWcCeXSNFA==', 'SigningCertUrl' => 'https://sns.ap-southeast-2.amazonaws.com/SimpleNotificationService-010a507c1833636cd94bdb98bd93083a.pem', 'UnsubscribeUrl' => 'https://sns.ap-southeast-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-2:544757391075:virus-testing-BadFilesUpdatesTopic-1L351O8NT3UKT:a7460cb7-8b77-46e1-8b89-3c8125290e26',
+          'Type'              => 'Notification',
+          'MessageId'         => 'cdca118f-b025-5883-ad32-49123a212c5c',
+          'TopicArn'          => 'arn:aws:sns:ap-southeast-2:544757391075:virus-testing-BadFilesUpdatesTopic-1L351O8NT3UKT',
+          'Subject'           => 'Amazon S3 Notification',
+          'Message'           => message,
+          'Timestamp'         => '2021-02-10T07:14:12.719Z',
+          'SignatureVersion'  => '1',
+          'Signature'         => 'qUb2tsa1I8sYtuN0OlwuA/97sZH5gbwe/IDwvQpmOSdu+OvYNxkw6hNXyClHF4IFmdQk5NBtGj5mUev9YGNoXAYDBLwqd9cpN+KxIco/Qjy1NIeCi5vdamSRechDgchIjT1g/xXRbPkvNoIUBi9EerMCAAWXjpfOIU9GcH646a5df+pt+0t1KoQfjbYzQiKHs62kWexRV0/7zEin5oUWm/a9UrJy28cUqIEbTReDTyzLQKrYch/ZT0THDGTypRZATxBohN9PW4wGOP/X4S7thoeiqLwF0PAlq6zPEIKGUY6idMWV+LkgdiW9KsAzqOn9UPThYQHIymoepWcCeXSNFA==', 'SigningCertUrl' => 'https://sns.ap-southeast-2.amazonaws.com/SimpleNotificationService-010a507c1833636cd94bdb98bd93083a.pem', 'UnsubscribeUrl' => 'https://sns.ap-southeast-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-2:544757391075:virus-testing-BadFilesUpdatesTopic-1L351O8NT3UKT:a7460cb7-8b77-46e1-8b89-3c8125290e26',
           'MessageAttributes' => {}
         }
       }]

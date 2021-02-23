@@ -3,3 +3,15 @@ steps:
 - label: ':rspec: Run specs'
   command: 'docker-compose run --rm specs'
 
+- block: "Build gems?"
+  branches: main
+
+- label: ':rubygems: Build Gems'
+  branches: main
+  plugins:
+  - cultureamp/aws-assume-role#v0.1.0:
+      role: "arn:aws:iam::644358627301:role/role-sts-oculo-continuous-integration"
+  commands:
+  - docker-compose build specs
+  - docker-compose run --rm specs .buildkite/build.sh
+  - .buildkite/deploy.sh

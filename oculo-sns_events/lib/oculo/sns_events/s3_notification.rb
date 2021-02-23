@@ -4,7 +4,7 @@ require 'json'
 
 module Oculo
   module SnsEvents
-    class InvalidSnsS3EventError < Exception; end
+    class InvalidSnsS3EventError < StandardError; end
 
     ##
     # Usage:
