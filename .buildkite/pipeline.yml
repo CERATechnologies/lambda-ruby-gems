@@ -13,5 +13,6 @@ steps:
       role: "arn:aws:iam::644358627301:role/role-sts-oculo-continuous-integration"
   commands:
   - docker-compose build specs
+  - .buildkite/download.sh
   - docker-compose run --rm specs .buildkite/build.sh
   - .buildkite/deploy.sh

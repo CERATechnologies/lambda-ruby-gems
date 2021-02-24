@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-mkdir -p pkg/gems
-
 # shellcheck disable=SC2035
 gems=$(find * -name '*.gemspec' | sed 's|/[^/]*$||' | grep -v .gemspec)
 
