@@ -5,11 +5,9 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-# Replace 'ref' with, 'branch', 'tag', etc as appropriate 
-git 'https://github.com/CERATechnologies/lambda-ruby-gems', ref: 'aaabbb33' do
-  gem 'oculo-sns_events'  
+source 'https://rubygems.oculo.io' do
+  gem 'oculo-sns_events', '~> 0.1.1'
 end
-
 ```
 
 And then execute:
