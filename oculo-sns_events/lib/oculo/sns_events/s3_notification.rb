@@ -32,11 +32,19 @@ module Oculo
             .then { |msg| JSON.parse(msg) }
       end
 
+      def s3_test_message?
+        payload['Event'] == 's3:TestEvent'
+      end
+
       def file_key
+        return nil if s3_test_message?
+
         @file_key ||= s3_object_value('key')
       end
 
       def file_size
+        return nil if s3_test_message?
+
         @file_size ||= s3_object_value('size')
       end
 
@@ -54,7 +62,7 @@ module Oculo
       # @raise [InvalidSnsS3EventError] if the payloads could not be parsed
       # @return [Boolean]
       def matches_extensions?(*file_extensions)
-        file_key.end_with?(*file_extensions)
+        file_key&.end_with?(*file_extensions) || false
       end
 
       ##
@@ -64,7 +72,7 @@ module Oculo
       # @raise [InvalidSnsS3EventError] if the payloads could not be parsed
       # @return [Boolean]
       def has_path?(prefix)
-        file_key.start_with?(prefix.sub(%r[^/], ''))
+        file_key&.start_with?(prefix.sub(%r[^/], '')) || false
       end
 
       private

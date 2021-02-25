@@ -5,30 +5,30 @@ require 'json'
 RSpec.describe Oculo::SnsEvents::S3Notification do
   let(:message) do
     { 'Records' => [{
-      "eventVersion"      => "2.1",
-      "eventSource"       => "aws : s3",
-      "awsRegion"         => "ap-southeast-2",
-      "eventTime"         => "2021-02-10T07:14:09.519Z",
-      "eventName"         => "ObjectCreated:Put",
-      "userIdentity"      => { "principalId" => "AWS:544757391075:jeff" },
-      "requestParameters" => { "sourceIPAddress" => "127.0.0.1" },
-      "responseElements" => {
-        "x-amz-request-id" => "E1DC023B3294FFF3",
-        "x-amz-id-2"       => "g49Knmurd55/IW0lVTucEg4CrhLn5Je7oODxRl2BjlbxCtcJR7SZ/y5QYAjW/bppiELlYpux7zmp5DjubyxTr2aLXhbzDrW8"
+                      'eventVersion'      => '2.1',
+                      'eventSource'       => 'aws : s3',
+                      'awsRegion'         => 'ap-southeast-2',
+                      'eventTime'         => '2021-02-10T07:14:09.519Z',
+                      'eventName'         => 'ObjectCreated:Put',
+                      'userIdentity'      => { 'principalId' => 'AWS:544757391075:jeff' },
+                      'requestParameters' => { 'sourceIPAddress' => '127.0.0.1' },
+                      'responseElements'  => {
+                        'x-amz-request-id' => 'E1DC023B3294FFF3',
+                        'x-amz-id-2'       => 'g49Knmurd55/IW0lVTucEg4CrhLn5Je7oODxRl2BjlbxCtcJR7SZ/y5QYAjW/bppiELlYpux7zmp5DjubyxTr2aLXhbzDrW8'
       },
-      "s3" => {
-        "s3SchemaVersion" => "1.0",
-        "configurationId" => "7cec4c1b-00c2-480e-b4ab-af1b87c6fd51",
-        "bucket" => {
-          "name"          => "oculo-bad-files-go-here",
-          "ownerIdentity" => { "principalId" => "AN8FYB6LRFGKA" },
-          "arn"           => "arn:aws:s3:::oculo-bad-files-go-here"
+                      's3'                => {
+                        's3SchemaVersion' => '1.0',
+                        'configurationId' => '7cec4c1b-00c2-480e-b4ab-af1b87c6fd51',
+                        'bucket'          => {
+                          'name'          => 'oculo-bad-files-go-here',
+                          'ownerIdentity' => { 'principalId' => 'AN8FYB6LRFGKA' },
+                          'arn'           => 'arn:aws:s3:::oculo-bad-files-go-here'
         },
-        "object" => {
-          "key"       => "files/cyberpunk-sorry.jpeg",
-          "size"      => 303924,
-          "eTag"      => "735f01ff550b7d9ffc79284a9498daaa",
-          "sequencer" => "00602387C3DA9D675E" }
+                        'object'          => {
+                          'key'       => 'files/cyberpunk-sorry.jpeg',
+                          'size'      => 303924,
+                          'eTag'      => '735f01ff550b7d9ffc79284a9498daaa',
+                          'sequencer' => '00602387C3DA9D675E' }
       }
       }
     ]}.to_json
@@ -61,6 +61,10 @@ RSpec.describe Oculo::SnsEvents::S3Notification do
 
   its(:file_key) { is_expected.to eq 'files/cyberpunk-sorry.jpeg' }
   its(:file_size) { is_expected.to eq 303924 }
+
+  it 'is not a test message' do
+    expect(subject.s3_test_message?).to eq false
+  end
 
   describe 'file prefix filtering' do
     it 'is false for a non-matching prefix' do
@@ -108,6 +112,31 @@ RSpec.describe Oculo::SnsEvents::S3Notification do
     it 'raises InvalidSnsS3EventError' do
       expect { subject.file_key }.to raise_error(Oculo::SnsEvents::InvalidSnsS3EventError)
     end
+  end
+
+  context 'S3 Subscription test event' do
+    let(:message) do
+      {
+        'Service'   => 'Amazon S3',
+        'Event'     => 's3:TestEvent',
+        'Time'      => '2021-02-25T02:38:50.994Z',
+        'Bucket'    => 'oculo-demo-images',
+        'RequestId' => '2DD5919EBFB2D455',
+        'HostId'    => '7RwOahKuS+56EKBzZb6bvND5PmByEy8Rsjn2M6q2ohQR/nEW1HJeTyvtTDAiinP85+BaPXKFMfo='
+      }.to_json
+    end
+
+    it 'can be checked if it is a test message' do
+      expect(subject.s3_test_message?).to eq true
+    end
+
+    it 'has_path, etc are all nil or false', :aggregate_failures do
+      expect(subject.has_path?('files')).to eq false
+      expect(subject.matches_extensions?('.exe')).to eq false
+      expect(subject.file_key).to eq nil
+      expect(subject.file_size).to eq nil
+    end
+
   end
 
 end
